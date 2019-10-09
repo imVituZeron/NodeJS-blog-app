@@ -1,6 +1,7 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
 const admin = require('./routes/admin');
@@ -15,6 +16,9 @@ const admin = require('./routes/admin');
       app.set('view engine','handlebars');
    //mongoose
       // Em breve
+//
+// Public
+   app.use(express.static(path.join(__dirname,"public")));
 //
 // Rotas
    app.use('/admin', admin);
