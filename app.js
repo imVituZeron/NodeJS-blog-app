@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 const admin = require('./routes/admin');
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 // Configurações
    //BodyParser
@@ -15,7 +15,15 @@ const admin = require('./routes/admin');
       app.engine('handlebars', handlebars({defaultLayout: 'main'}));
       app.set('view engine','handlebars');
    //mongoose
-      // Em breve
+      mongoose.Promise = global.Promise;
+      mongoose.connect("mongodb://localhost/blog-app",{
+         useNewUrlParser: true,
+         useUnifiedTopology: true,
+      }).then(()=>{
+         console.log('Database connected!');
+      }).catch(err=>{
+         console.log("ERROR database!"+err);
+      });
 //
 // Public
    app.use(express.static(path.join(__dirname,"public")));
