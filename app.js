@@ -6,8 +6,23 @@ const path = require('path');
 const app = express();
 const admin = require('./routes/admin');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 // Configurações
+   //Session
+      app.use(session({
+         secret: "cursodenode",
+         resave: true,
+         saveUninitialized: true,
+      }));
+      app.use(flash());
+   // MiddleWare
+      app.use((req,res, next)=>{
+         res.locals.success_msg = req.flash('success_msg');
+         res.locals.error_msg = req.flash('error_msg');
+         next();
+      });
    //BodyParser
       app.use(bodyParser.urlencoded({extended: true}));
       app.use(bodyParser.json());
