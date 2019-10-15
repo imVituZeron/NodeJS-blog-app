@@ -18,17 +18,37 @@ router.get('/categorys',(req, res)=>{
 });
 
 router.post('/categorys/new',(req,res)=>{
-   const newCategory = {
-      name: req.body.name,
-      slug: req.body.slug
-   };
 
-   new Category(newCategory).save().then(()=>{
-      console.log('Category successfully saved')
-   }).catch(err=>{
-      console.log('Request error :'+err);
-   });
+   var error = [];
 
+   if(!req.body.name || typeof req.body.name === undefined || req.body.name === null){
+      error.push({text: "INVALID NAME"});
+   }
+
+   if(!req.body.slug || typeof req.body.slug === undefined || req.body.slug === null){
+      error.push({ text: "INVALID SLUG"});
+   }
+
+   if(req.body.name.length < 2){
+      error.push({ text: "Nome da category very little"})
+   }
+
+   if(error.length > 0){
+      res.render("admin/addCategorys", {erros: error});
+   } else {
+      const newCategory = {
+         name: req.body.name,
+         slug: req.body.slug
+      };
+   
+      new Category(newCategory).save().then(()=>{
+         req.flash("success_msg", "Category successfully saved");
+         res.redirect("/admin/categorys");
+      }).catch(err=>{
+         req.flash("error_msg", "ERROR: unsaved category");
+         res.redirect("/admin");
+      });
+   }
 });
 
 router.get('/categorys/add', (req,res)=>{
