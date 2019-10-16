@@ -6,7 +6,10 @@
    <div class="card mt-4">
       <div class="card-body">
          <h4>{{name}}</h4>
-         <small>Slug: {{slug}}</small>
+         <small>Slug: {{slug}}</small><br>
+         <a href="/admin/categorys/edit/{{_id}}">
+            <button class="btn btn-success mt-2">Category Edit</button>
+         </a>
       </div>
    </div>
 {{else}}

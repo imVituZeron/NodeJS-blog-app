@@ -55,6 +55,33 @@ router.post('/categorys/new',(req,res)=>{
       });
    }
 });
+router.get("/categorys/edit/:id",(req,res)=>{
+   Category.findOne({ _id:req.params.id }).then((category)=>{
+      res.render('admin/editCategorys',{ category: category });
+   }).catch(err=>{
+      req.flash("error_msg", "ERROR: Category nonexistent!");
+      res.redirect("/admin/categorys");
+   });
+});
+
+router.post('/categorys/edit', (req, res)=>{
+   Category.findOne({ _id: req.body.id }).then((category)=>{
+      category.name = req.body.name;
+      category.slug = req.body.slug;
+      
+      category.save().then(()=>{
+         req.flash('success_msg', "Category edit SUCCESS!");
+         res.redirect('/admin/categorys');
+      }).catch(err=>{
+         req.flash('error_msg', "There was an error editing the category");
+         res.redirect('/admin/categotys');
+      });
+
+   }).catch(err=>{
+      res.flush('error_msg', "There was an error editing the category");
+      res.redirect('/admin/categorys');
+   });
+});
 
 router.get('/categorys/add', (req,res)=>{
    res.render('admin/addCategorys');
