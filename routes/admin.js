@@ -14,7 +14,12 @@ router.get('/posts', (req, res)=>{
 });
 
 router.get('/categorys',(req, res)=>{
-   res.render("admin/categorys");
+   Category.find().then((categotys)=>{
+      res.render("admin/categorys",{ categorys: categotys});
+   }).catch(err=>{
+      req.flash('error_msg',"Categorys list ERROR");
+      res.redirect('/admin');
+   });
 });
 
 router.post('/categorys/new',(req,res)=>{
