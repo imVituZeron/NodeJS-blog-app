@@ -10,8 +10,12 @@
          <a href="/admin/categorys/edit/{{_id}}">
             <button class="btn btn-success mt-2">Category Edit</button>
          </a>
+         <form action="/admin/categorys/delete" method="POST">
+            <input type="hidden" name="id" value="{{_id}}">
+            <button type="submit" class="btn btn-danger mt-2">Category delete</button>
+         </form>
       </div>
    </div>
 {{else}}
-
+   <h4 class="mt-3">no registered categories</h4>
 {{/each}}
